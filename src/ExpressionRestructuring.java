@@ -9,7 +9,7 @@ public class ExpressionRestructuring {
 		StringBuilder postfix = new StringBuilder();
 		Stack<Character> operatorStack = new Stack<>();
 
-		for (int i = 0; i < infixStr.length(); i++) {
+		for (int i = 0; i < input.length; i++) {
 			char curOp = input[i];
 
 			// Numerical (operand)
@@ -25,7 +25,7 @@ public class ExpressionRestructuring {
 			}
 			// Right parenthesis (pop all the operators in the parenthesis scope)
 			if (curOp == ')') {
-				while (!operatorStack.isEmpty() && operatorStack.peek()!= '(') {
+				while (!operatorStack.isEmpty() && operatorStack.peek() != '(') {
 					postfix.append(operatorStack.pop());
 				}
 				// pop the left parenthesis
@@ -35,7 +35,7 @@ public class ExpressionRestructuring {
 			// Regular operator.
 			if (isOperator(curOp)) {
 				// Remove all operators with higher precedence
-				while (!operatorStack.isEmpty() && calcPrecedence(operatorStack.peek()) > calcPrecedence(curOp)) {
+				while (!operatorStack.isEmpty() && calcPrecedence(curOp) <= calcPrecedence(operatorStack.peek())) {
 					postfix.append(operatorStack.pop());
 				}
 				// Push the current operator
@@ -63,6 +63,7 @@ public class ExpressionRestructuring {
 		}
 		return -1;
 	}
+
 	public static boolean isOperator(char op) {
 		return op == '+' || op == '-' || op == '*' || op == '/' || op == '^';
 	}
